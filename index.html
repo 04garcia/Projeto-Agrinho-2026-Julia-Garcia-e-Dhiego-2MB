@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Memória - Agro Forte, Futuro Sustentável</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Agro Forte, Futuro Sustentável</h1>
+        <p>Combine a <strong>Tecnologia com Prática</strong> com o seu respectivo <strong>Benefício Sustentável</strong> para vencer o desafio!</p>
+        <div class="placar">Acertos: <span id="acertos-txt">0</span> / 4</div>
+    </header>
+
+    <main class="tabuleiro" id="tabuleiro"></main>
+
+    <div class="vitoria-modal" id="vitoria-modal">
+        <div class="vitoria-conteudo">
+            <h2>Parabéns! 🎉</h2>
+            <p>Você provou que o Agro Forte e o Futuro Sustentável caminham juntos!</p>
+            <button class="btn-reiniciar" onclick="reiniciarJogo()">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <script>
+        // Definição dos dados das cartas. Cada par possui o mesmo ID. fazer botões!!!
+        const dadosCartas = [
+            { id: 1, tipo: "tecnologia", texto: "🚜 Trator Autônomo (GPS)" },
+            { id: 1, tipo: "beneficio", texto: "Economia de combustível e menor compactação do solo pelo trajeto exato." },
+            
+            { id: 2, tipo: "tecnologia", texto: "☀️ Painéis Solares na Fazenda" },
+            { id: 2, tipo: "beneficio", texto: "Geração de energia limpa e redução de custos de produção." },
+            
+            { id: 3, tipo: "tecnologia", texto: "🐞 Controle Biológico (Insetos do Bem)" },
+            { id: 3, tipo: "beneficio", texto: "Eliminação de pragas sem o uso de produtos químicos pesados." },
+            
+            { id: 4, tipo: "tecnologia", texto: "💧 Sensores de Umidade no Solo" },
+            { id: 4, tipo: "beneficio", texto: "Irrigação precisa, evitando o desperdício de água na plantação." }
+        ];
+
+        let cartasViradas = [];
+        let acertos = 0;
+        let bloqueiaTabuleiro = false;
+
+        const tabuleiro = document.getElementById("tabuleiro");
+        const acertosTxt = document.getElementById("acertos-txt");
+        const vitoriaModal = document.getElementById("vitoria-modal");
+
+        // Função para embaralhar o array (Algoritmo de Fisher-Yates)
+        function embaralhar(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Função que cria a interface do jogo
+        function iniciarJogo() {
+            tabuleiro.innerHTML = "";
+            cartasViradas = [];
+            acertos = 0;
+            bloqueiaTabuleiro = false;
+            acertosTxt.innerText = acertos;
+            vitoriaModal.style.display = "none";
+
+            // Embaralha as cartas antes de desenhar na tela
+            const cartasEmbaralhadas = embaralhar([...dadosCartas]);
+
+            cartasEmbaralhadas.forEach(dados => {
+                // Cria a estrutura HTML da carta
+                const elementoCarta = document.createElement("div");
+                elementoCarta.classList.add("carta");
+                elementoCarta.dataset.id = dados.id;
+                elementoCarta.dataset.tipo = dados.tipo;
+
+                elementoCarta.innerHTML = `
+                    <div class="carta-interna">
+                        <div class="carta-frente">${dados.texto}</div>
+                        <div class="carta-verso">🌿</div>
+                    </div>
+                `;
+
+                // Adiciona o evento de clique na carta
+                elementoCarta.addEventListener("click", virarCarta);
+                tabuleiro.appendChild(elementoCarta);
+            });
+        }
+
+        // Lógica executada ao clicar na carta
+        function virarCarta() {
+            if (bloqueiaTabuleiro) return;
+            if (this.classList.contains("virada") || this.classList.contains("combinada")) return;
+
+            this.classList.add("virada");
+            cartasViradas.push(this);
+
+            // Se o usuário virou duas cartas, faz a checagem
+            if (cartasViradas.length === 2) {
+                checarPar();
+            }
+        }
+
+        // Verifica se as duas cartas formam um par correspondente
+        function checarPar() {
+            bloqueiaTabuleiro = true;
+            const [carta1, carta2] = cartasViradas;
+
+            // Para ser um par válido: devem ter o mesmo ID, mas TIPOS diferentes (uma tecnologia e um benefício)
+            const mesmoId = carta1.dataset.id === carta2.dataset.id;
+            const tiposDiferentes = carta1.dataset.tipo !== carta2.dataset.tipo;
+
+            if (mesmoId && tiposDiferentes) {
+                // Deu Match!
+                carta1.classList.add("combinada");
+                carta2.classList.add("combinada");
+                acertos++;
+                acertosTxt.innerText = acertos;
+
+                limparSelecao();
+
+                // Verifica se o jogo acabou
+                if (acertos === dadosCartas.length / 2) {
+                    setTimeout(() => {
+                        vitoriaModal.style.display = "flex";
+                    }, 600);
+                }
+            } else {
+                // Não combinou, desvira as cartas após 1.5 segundos para o jogador memorizar
+                setTimeout(() => {
+                    carta1.classList.remove("virada");
+                    carta2.classList.remove("virada");
+                    limparSelecao();
+                }, 1500);
+            }
+        }
+
+        function limparSelecao() {
+            cartasViradas = [];
+            bloqueiaTabuleiro = false;
+        }
+
+        function reiniciarJogo() {
+            iniciarJogo();
+        }
+
+        // Inicializa o jogo assim que a página carrega
+        window.onload = iniciarJogo;
+    </script>
+</body>
+</html>
