@@ -11,11 +11,11 @@ root {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Comfortaa", sans-serif;
 }
 
 body {
-    background-color: var(--cor-fundo);
+    background-color: #7FA653;
     color: var(--cor-texto);
     display: flex;
     flex-direction: column;
@@ -27,6 +27,7 @@ body {
 header {
     text-align: center;
     margin-bottom: 20px;
+    color:#212922;
 }
 
 h1 {
@@ -44,7 +45,7 @@ p {
 .placar {
     font-size: 1.2rem;
     font-weight: bold;
-    background-color: rgb(178, 238, 39);
+    background-color: #99cb85;
     padding: 10px 20px;
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -100,7 +101,7 @@ p {
 /* Verso da carta (fechada) */
 .carta-verso {
     background-color: var(--cor-carta-verso);
-    color: rgb(0, 156, 13);
+    color: #99cb85;
     font-size: 2rem;
 }
 
