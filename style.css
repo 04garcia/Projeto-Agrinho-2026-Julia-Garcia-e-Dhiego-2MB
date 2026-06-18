@@ -1,5 +1,5 @@
 root {
-    --cor-fundo: #f4f7f5;
+    --cor-fundo: #fff09d;
     --cor-primaria: #2e7d32;
     --cor-secundaria: #81c784;
     --cor-texto: #1b5e20;
@@ -44,7 +44,7 @@ p {
 .placar {
     font-size: 1.2rem;
     font-weight: bold;
-    background-color: white;
+    background-color: rgb(178, 238, 39);
     padding: 10px 20px;
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -100,13 +100,13 @@ p {
 /* Verso da carta (fechada) */
 .carta-verso {
     background-color: var(--cor-carta-verso);
-    color: white;
+    color: rgb(0, 156, 13);
     font-size: 2rem;
 }
 
 /* Frente da carta (aberta) */
 .carta-frente {
-    background-color: white;
+    background-color: rgb(70, 255, 141);
     color: #333;
     transform: rotateY(180deg);
     border: 3px solid var(--cor-secundaria);
