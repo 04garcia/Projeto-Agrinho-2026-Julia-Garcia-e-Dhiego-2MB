@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #5bcc5b;
+    background-color: #4a6383;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,12 +18,12 @@ body {
 header {
     text-align: center;
     margin-bottom: 20px;
-    color:#212922;
+    color:#c2e5f5;
 }
 
 h1 {
     font-size: 2rem;
-    color:#2e7d32;
+    color:#7cd6ff;
     margin-bottom: 10px;
 }
 
@@ -54,7 +54,7 @@ p {
 /* Estrutura das Cartas */
 .carta {
     height: 160px;
-    perspective: 1000px;
+    perspective: 1000pxbe7c3e;
     cursor: pointer;
 }
 
@@ -90,7 +90,7 @@ p {
 
 /* Verso da carta (fechada) */
 .carta-verso {
-    background-color: #388e3c;
+    background-color: #95eaf0;
     font-size: 2rem;
 }
 
